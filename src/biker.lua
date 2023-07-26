@@ -5,7 +5,7 @@ function Biker:initialize()
     self.y = 100
     self.speed = 0
     self.direction = 0
-    self.sprite = love.graphics.newImage('assets/Biker-bike-1.png')
+    self.sprite = love.graphics.newImage('assets/bike/Biker-bike-1.png')
 end
 
 function Biker:update(dt)
