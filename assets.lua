@@ -1,0 +1,68 @@
+Biker_assets = {
+  leg = {
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg1.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg2.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg3.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg4.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg5.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg6.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg7.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg8.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg9.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg10.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg11.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg12.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg13.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg14.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg15.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg16.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg17.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg18.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg19.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg20.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg21.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg22.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg23.png'),
+    love.graphics.newImage('assets/bike-asset/leg/Biker-leg24.png'),  
+  },
+
+  pedal = {
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal1.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal2.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal3.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal4.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal5.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal6.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal7.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal8.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal9.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal10.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal11.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal12.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal13.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal14.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal15.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal16.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal17.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal18.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal19.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal20.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal21.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal22.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal23.png'),
+    love.graphics.newImage('assets/bike-asset/pedal/Biker-pedal24.png'),  
+  },
+
+  body = {
+    love.graphics.newImage('assets/bike-asset/body/Biker-body1.png'),
+  },
+
+  bike = {
+    love.graphics.newImage('assets/bike-asset/bike/Biker-bike1.png'),
+    love.graphics.newImage('assets/bike-asset/bike/Biker-bike2.png'),
+    love.graphics.newImage('assets/bike-asset/bike/Biker-bike3.png'),
+    
+  },
+}
+
+temp = 1
