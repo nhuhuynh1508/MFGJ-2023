@@ -55,6 +55,11 @@ Biker_assets = {
 
   body = {
     love.graphics.newImage('assets/bike-asset/body/Biker-body1.png'),
+    love.graphics.newImage('assets/bike-asset/body/Biker-body2.png'),
+    love.graphics.newImage('assets/bike-asset/body/Biker-body3.png'),
+    love.graphics.newImage('assets/bike-asset/body/Biker-body4.png'),
+    love.graphics.newImage('assets/bike-asset/body/Biker-body5.png'),
+    love.graphics.newImage('assets/bike-asset/body/Biker-body6.png'),
   },
 
   bike = {
