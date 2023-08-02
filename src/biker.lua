@@ -16,7 +16,8 @@ function Biker:initialize()
     self.height = 64
     self.acceleration = 300
     self.velocity = {x = 0, y = 100}
-    self.maxSpd = 600
+    self.maxSpd = 200
+    self.friction = 10
 
     -- Physics
     self.physics = {}
@@ -36,10 +37,12 @@ function Biker:update(dt)
 end
 
 function Biker:draw()
-    love.graphics.draw(Biker_assets['body'][self.body], self.x, self.y, self.direction, 1, 1)
-    love.graphics.draw(Biker_assets['bike'][self.bike], self.x, self.y, self.direction, 1, 1)
-    love.graphics.draw(Biker_assets['leg'][self.leg], self.x, self.y, self.direction, 1, 1)
-    love.graphics.draw(Biker_assets['pedal'][self.pedal], self.x, self.y, self.direction, 1, 1)
+    love.graphics.draw(Biker_assets['body'][self.body], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
+    love.graphics.draw(Biker_assets['bike'][self.bike], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
+    love.graphics.draw(Biker_assets['leg'][self.leg], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
+    love.graphics.draw(Biker_assets['pedal'][self.pedal], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
+
+    -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
 end
 
 function Biker:updateGraphics(dt)
@@ -55,14 +58,25 @@ function Biker:updateMovement(dt)
     self.physics.body:setLinearVelocity(self.velocity.x, self.velocity.y)
 
     if love.keyboard.isDown('right', 'd') then
-        self.velocity.x = self.velocity.x + self.acceleration*dt
+        if self.velocity.x < self.maxSpd then
+            self.velocity.x = self.velocity.x + self.acceleration*dt
+        end
     end
     if love.keyboard.isDown('left', 'a') then
-        self.velocity.x = self.velocity.x - self.acceleration*dt
+        if self.velocity.x > -self.maxSpd then
+            self.velocity.x = self.velocity.x - self.acceleration*dt
+        end
     end
-    -- if self.velocity > 2 then
-    --     self.speed = 2
-    -- end
+        self:applyFriction(dt)
+end
+
+
+function Biker:applyFriction(dt)
+    if self.velocity.x > 0 then
+        self.velocity.x = math.max(self.velocity.x - self.friction*dt, 0)
+    elseif self.velocity.x < 0 then
+        self.velocity.x = math.max(self.velocity.x + self.friction*dt, 0)
+    end
 end
 
 return Biker
