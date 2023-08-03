@@ -8,6 +8,8 @@ function Biker:initialize()
     self.pedal = 2
     self.rotation = 0
     self.pedalRatio = 3
+    self.nx = 0
+    self.ny = 0
 
     -- Movement
     self.x = 100
@@ -17,7 +19,10 @@ function Biker:initialize()
     self.acceleration = 300
     self.velocity = {x = 0, y = 100}
     self.maxSpd = 200
-    self.friction = 10
+    self.friction = 0.5
+    self.isGrounded = false
+    self.jumpVal = 200
+    self.gravity = 500
 
     -- Physics
     self.physics = {}
@@ -46,7 +51,7 @@ function Biker:draw()
 end
 
 function Biker:updateGraphics(dt)
-    self.rotation = self.rotation + self.velocity.x*dt
+    self.rotation = self.rotation + self.velocity.x*dt * 0.2
     self.bike = math.floor(self.rotation % 3) + 1
     self.leg = math.floor((self.rotation * self.pedalRatio) % 24) + 1
     self.pedal = math.floor((self.rotation * self.pedalRatio) % 24) + 1
@@ -67,16 +72,58 @@ function Biker:updateMovement(dt)
             self.velocity.x = self.velocity.x - self.acceleration*dt
         end
     end
-        self:applyFriction(dt)
+
+    self:applyFriction(dt)
+    self:applyGravity(dt)
 end
 
+function Biker:keypressed(key)
+    if key == 'space' or key == 'w' or key == "up" then
+        self:jump()
+    end
+end
+
+function Biker:jump()
+    if self.isGrounded then
+        self.isGrounded = false
+        self.velocity.y = -self.jumpVal
+    end
+end
 
 function Biker:applyFriction(dt)
-    if self.velocity.x > 0 then
-        self.velocity.x = math.max(self.velocity.x - self.friction*dt, 0)
-    elseif self.velocity.x < 0 then
-        self.velocity.x = math.max(self.velocity.x + self.friction*dt, 0)
+    self.velocity.x = self.velocity.x * math.pow(self.friction, dt)
+end
+
+function Biker:beginContact(a, b, coll)
+    self.nx, self.ny = coll:getNormal()
+    print(self.nx, self.ny)
+    if a == self.physics.fixture then
+        if self.ny > 0 then
+            self:land()
+        end
+    elseif b == self.physics.fixture then
+        if self.ny < 0 then
+            self:land()
+        end
     end
+end
+
+function Biker:land()
+    self.isGrounded = true
+    self.velocity.y = 0
+    print('landed')
+end
+
+function Biker:applyGravity(dt)
+    if not self.isGrounded then
+        if self.velocity.y < 500 then
+            self.velocity.y = self.velocity.y + self.gravity*dt
+        end
+    end
+end
+
+function Biker:endContact(a, b, coll)
+    self.isGrounded = false
 end
 
 return Biker
