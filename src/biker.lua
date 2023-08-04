@@ -16,23 +16,29 @@ function Biker:initialize()
     self.y = 100
     self.width = 64
     self.height = 64
-    self.acceleration = 300
+    self.acceleration = 100
     self.velocity = {x = 0, y = 100}
-    self.maxSpd = 200
+    self.maxSpd = 300
     self.friction = 0.5
     self.isGrounded = false
     self.jumpVal = 200
     self.gravity = 500
+    self.direction = 0
 
     -- Physics
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
-    self.physics.body:setFixedRotation(true)
+    self.physics.body:setFixedRotation(false)
     self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 end
 
 function Biker:update(dt)
+    -- Direction updating
+    if (math.atan2(self.ny, self.nx) - math.pi/2 > math.pi/2) or (math.atan2(self.ny, self.nx) > 0) then
+        self.direction = math.atan2(self.ny, self.nx) - math.pi/2
+    end
+
     -- Graphics updating
     self:updateGraphics(dt)
 
@@ -42,10 +48,10 @@ function Biker:update(dt)
 end
 
 function Biker:draw()
-    love.graphics.draw(Biker_assets['body'][self.body], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
-    love.graphics.draw(Biker_assets['bike'][self.bike], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
-    love.graphics.draw(Biker_assets['leg'][self.leg], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
-    love.graphics.draw(Biker_assets['pedal'][self.pedal], self.x - self.width/2, self.y - self.height/2, self.direction, 1, 1)
+    love.graphics.draw(Biker_assets['body'][self.body], self.x, self.y, self.direction, 1, 1, self.width/2, self.height/2)
+    love.graphics.draw(Biker_assets['bike'][self.bike], self.x, self.y, self.direction, 1, 1, self.width/2, self.height/2)
+    love.graphics.draw(Biker_assets['leg'][self.leg], self.x, self.y, self.direction, 1, 1, self.width/2, self.height/2)
+    love.graphics.draw(Biker_assets['pedal'][self.pedal], self.x, self.y, self.direction, 1, 1, self.width/2, self.height/2)
 
     -- love.graphics.rectangle("fill", self.x - self.width / 2, self.y - self.height / 2, self.width, self.height)
 end
@@ -68,8 +74,11 @@ function Biker:updateMovement(dt)
         end
     end
     if love.keyboard.isDown('left', 'a') then
-        if self.velocity.x > -self.maxSpd then
-            self.velocity.x = self.velocity.x - self.acceleration*dt
+        if self.velocity.x > 0 then
+            self.velocity.x = self.velocity.x * math.pow(0.5, dt)
+        end
+        if self.velocity.x > -50 then
+            self.velocity.x = self.velocity.x - self.acceleration * 0.1 * dt
         end
     end
 
@@ -98,11 +107,11 @@ function Biker:beginContact(a, b, coll)
     self.nx, self.ny = coll:getNormal()
     print(self.nx, self.ny)
     if a == self.physics.fixture then
-        if self.ny > 0 then
+        if self.ny >= 0 then
             self:land()
         end
     elseif b == self.physics.fixture then
-        if self.ny < 0 then
+        if self.ny <= 0 then
             self:land()
         end
     end
