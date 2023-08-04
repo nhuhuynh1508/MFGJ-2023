@@ -2,6 +2,7 @@ require 'globals'
 require 'assets'
 
 Biker = require 'src.biker'
+Spike = require 'src.spike'
 Time = 0
 
 
@@ -26,6 +27,7 @@ function love.draw()
     love.graphics.draw(background, 0, 0)
     biker:draw()
     Map:draw()
+    Spike:draw()
 end
 
 function beginContact(a, b, coll)
