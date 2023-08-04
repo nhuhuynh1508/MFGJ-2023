@@ -23,6 +23,6 @@ function Spike:update(dt)
 end
 
 function Spike:beginContact(a, b, coll)
-    
+end
 
 return Spike

@@ -9,7 +9,8 @@ function Biker:initialize()
     self.rotation = 0
     self.pedalRatio = 3
     self.nx = 0
-    self.ny = 0
+    self.ny = -1
+    self.dimensionTouched = 0
 
     -- Movement
     self.x = 100
@@ -29,14 +30,14 @@ function Biker:initialize()
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
     self.physics.body:setFixedRotation(false)
-    self.physics.shape = love.physics.newRectangleShape(self.width, self.height)
+    self.physics.shape = love.physics.newCircleShape(self.width/2)
     self.physics.fixture = love.physics.newFixture(self.physics.body, self.physics.shape)
 end
 
 function Biker:update(dt)
     -- Direction updating
-    if (math.atan2(self.ny, self.nx) - math.pi/2 > math.pi/2) or (math.atan2(self.ny, self.nx) > 0) then
-        self.direction = math.atan2(self.ny, self.nx) - math.pi/2
+    if (math.atan2(self.ny, self.nx) + math.pi/2 > -math.pi/2) or (math.atan2(self.ny, self.nx) + math.pi/2 < math.pi/2) then
+        self.direction = math.atan2(self.ny, self.nx) + math.pi/2
     end
 
     -- Graphics updating
@@ -78,7 +79,7 @@ function Biker:updateMovement(dt)
             self.velocity.x = self.velocity.x * math.pow(0.5, dt)
         end
         if self.velocity.x > -50 then
-            self.velocity.x = self.velocity.x - self.acceleration * 0.1 * dt
+            self.velocity.x = self.velocity.x - self.acceleration * 0.5 * dt
         end
     end
 
@@ -104,6 +105,7 @@ function Biker:applyFriction(dt)
 end
 
 function Biker:beginContact(a, b, coll)
+    self.dimensionTouched = self.dimensionTouched + 1
     self.nx, self.ny = coll:getNormal()
     print(self.nx, self.ny)
     if a == self.physics.fixture then
@@ -115,6 +117,8 @@ function Biker:beginContact(a, b, coll)
             self:land()
         end
     end
+    print('Dimension:', self.dimensionTouched)
+
 end
 
 function Biker:land()
@@ -132,7 +136,11 @@ function Biker:applyGravity(dt)
 end
 
 function Biker:endContact(a, b, coll)
-    self.isGrounded = false
+    self.dimensionTouched = self.dimensionTouched - 1
+    if self.dimensionTouched == 0 then
+        self.isGrounded = false
+    end
+    print('Dimension: ',self.dimensionTouched)
 end
 
 return Biker
