@@ -14,10 +14,10 @@ function Biker:initialize()
 
     -- Movement
     self.x = 100
-    self.y = 100
+    self.y = 300
     self.width = 64
     self.height = 64
-    self.acceleration = 100
+    self.acceleration = 150
     self.velocity = {x = 0, y = 100}
     self.maxSpd = 300
     self.friction = 0.5
@@ -132,6 +132,8 @@ function Biker:applyGravity(dt)
         if self.velocity.y < 500 then
             self.velocity.y = self.velocity.y + self.gravity*dt
         end
+    else
+        self.velocity.y = 100
     end
 end
 

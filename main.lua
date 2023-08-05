@@ -3,10 +3,12 @@ require 'assets'
 
 Biker = require 'src.biker'
 Spike = require 'src.spike'
+Camera = require 'lib.camera'
 Time = 0
 
 
 function love.load()
+    cam = Camera()
     World = love.physics.newWorld(0, 0)
     World:setCallbacks(beginContact, endContact)
     biker = Biker:new()
@@ -21,13 +23,17 @@ function love.update(dt)
     Time = Time + dt
     biker:update(dt)
     World:update(dt)
+
+    cam:lookAt(biker.x, biker.y - 150)
 end
 
 function love.draw()
-    love.graphics.draw(background, 0, 0)
-    biker:draw()
-    Map:draw()
-    Spike:draw()
+    cam:attach()
+        love.graphics.draw(background, 0, 0)
+        Map:drawLayer(Map.layers["Tile Layer 1"])
+        Spike:draw()
+        biker:draw()
+    cam:detach()
 end
 
 function beginContact(a, b, coll)
