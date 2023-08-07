@@ -26,6 +26,10 @@ function Biker:initialize()
     self.gravity = 500
     self.direction = 0
 
+    --Health
+    self.health = 3
+    self.alive = true
+
     -- Physics
     self.physics = {}
     self.physics.body = love.physics.newBody(World, self.x, self.y, 'dynamic')
@@ -46,6 +50,8 @@ function Biker:update(dt)
     --Movement updating
     self:updateMovement(dt)
     
+    --Health updating
+    self:respawn()
 end
 
 function Biker:draw()
@@ -105,6 +111,7 @@ function Biker:applyFriction(dt)
 end
 
 function Biker:beginContact(a, b, coll)
+    --Ground contact
     self.dimensionTouched = self.dimensionTouched + 1
     self.nx, self.ny = coll:getNormal()
     print(self.nx, self.ny)
@@ -117,14 +124,13 @@ function Biker:beginContact(a, b, coll)
             self:land()
         end
     end
-    print('Dimension:', self.dimensionTouched)
-
+    -- print('Dimension:', self.dimensionTouched)
 end
 
 function Biker:land()
     self.isGrounded = true
     self.velocity.y = 0
-    print('landed')
+    -- print('landed')
 end
 
 function Biker:applyGravity(dt)
@@ -142,7 +148,30 @@ function Biker:endContact(a, b, coll)
     if self.dimensionTouched == 0 then
         self.isGrounded = false
     end
-    print('Dimension: ',self.dimensionTouched)
+    -- print('Dimension: ',self.dimensionTouched)
+end
+
+function Biker:takeDamage(amount)
+    if self.health - amount > 0 then
+        self.health = self.health - amount
+    else
+        self.health = 0
+        self:die()
+    end
+    print("Player health: "..self.health)
+end
+
+function Biker:die()
+    self.alive = false
+    print("Player died")
+end
+
+function Biker:respawn()
+    if not self.alive then
+        self.physics.body:setPosition(100, 300)
+        self.alive = true
+        self.health = self.health - 1
+    end
 end
 
 return Biker

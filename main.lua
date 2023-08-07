@@ -5,6 +5,7 @@ Biker = require 'src.biker'
 Spike = require 'src.spike'
 Camera = require 'lib.camera'
 Time = 0
+ActiveSpikes = {}
 
 
 function love.load()
@@ -17,6 +18,14 @@ function love.load()
     Map:box2d_init(World)
     Map.layers.solid.visible = false
     background = love.graphics.newImage('assets/background.png')
+
+    ---Spike
+    spike1 = Spike(200, 200)
+    spike2 = Spike(100, 500)
+    spike3 = Spike(300, 340)
+    spike4 = Spike(400, 310)
+    spike5 = Spike(500, 280)
+    ActiveSpikes = {spike1, spike2, spike3, spike4, spike5}
 end
 
 function love.update(dt)
@@ -31,13 +40,15 @@ function love.draw()
     cam:attach()
         love.graphics.draw(background, 0, 0)
         Map:drawLayer(Map.layers["Tile Layer 1"])
-        Spike:draw()
+        for i = 1, 5 do
+            ActiveSpikes[i]:draw()
+        end
         biker:draw()
     cam:detach()
 end
 
 function beginContact(a, b, coll)
-    print('beginContact')
+    if spike1:beginContact(a, b, coll) then return end
     biker:beginContact(a, b, coll)
 end
 
